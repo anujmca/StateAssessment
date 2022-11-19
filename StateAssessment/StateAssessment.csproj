@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-StateAssessment-83221BA6-E1C2-4EF6-9C90-05940A9C2F90</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\style.css" />
+    <None Include="wwwroot\css\style.min.css" />
+    <None Include="wwwroot\fonts\Rubik-Black.ttf" />
+    <None Include="wwwroot\fonts\Rubik-BlackItalic.ttf" />
+    <None Include="wwwroot\fonts\Rubik-Bold.ttf" />
+    <None Include="wwwroot\fonts\Rubik-BoldItalic.ttf" />
+    <None Include="wwwroot\fonts\Rubik-ExtraBold.ttf" />
+    <None Include="wwwroot\fonts\Rubik-ExtraBoldItalic.ttf" />
+    <None Include="wwwroot\fonts\Rubik-Italic.ttf" />
+    <None Include="wwwroot\fonts\Rubik-Light.ttf" />
+    <None Include="wwwroot\fonts\Rubik-LightItalic.ttf" />
+    <None Include="wwwroot\fonts\Rubik-Medium.ttf" />
+    <None Include="wwwroot\fonts\Rubik-MediumItalic.ttf" />
+    <None Include="wwwroot\fonts\Rubik-Regular.ttf" />
+    <None Include="wwwroot\fonts\Rubik-SemiBold.ttf" />
+    <None Include="wwwroot\fonts\Rubik-SemiBoldItalic.ttf" />
+    <None Include="wwwroot\icons\back.svg" />
+    <None Include="wwwroot\icons\info.svg" />
+    <None Include="wwwroot\icons\question.svg" />
+    <None Include="wwwroot\icons\review.svg" />
+    <None Include="wwwroot\icons\right-arrow.svg" />
+    <None Include="wwwroot\icons\three-dots.svg" />
+    <None Include="wwwroot\icons\timer.svg" />
+    <None Include="wwwroot\images\body-bg.jpg" />
+    <None Include="wwwroot\images\login-bg.jpg" />
+    <None Include="wwwroot\images\logo.png" />
+    <None Include="wwwroot\js\custom.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="static\css\" />
+    <Folder Include="static\js\" />
+  </ItemGroup>
+
+</Project>
