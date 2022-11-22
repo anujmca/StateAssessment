@@ -219,6 +219,8 @@ namespace StateAssessment.Models
 
                 entity.Property(e => e.InventoryName).HasMaxLength(100);
 
+                entity.Property(e => e.SectionName).HasMaxLength(50);
+
                 entity.HasOne(d => d.ParentInventory)
                     .WithMany(p => p.InverseParentInventory)
                     .HasForeignKey(d => d.ParentInventoryId)

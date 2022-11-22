@@ -16,6 +16,7 @@ namespace StateAssessment.Models
 
         [Key]
         public long InventoryId { get; set; }
+        public string? SectionName { get; set; }
         public string? InventoryName { get; set; }
         public string? InventoryDescription { get; set; }
         public int? TimeRequiredInMinutes { get; set; }

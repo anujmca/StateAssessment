@@ -57,7 +57,7 @@ namespace StateAssessment.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("InventoryId,InventoryName,InventoryDescription,TimeRequiredInMinutes,ParentInventoryId")] Inventory inventory)
+        public async Task<IActionResult> Create([Bind("InventoryId,SectionName,InventoryName,InventoryDescription,TimeRequiredInMinutes,ParentInventoryId")] Inventory inventory)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace StateAssessment.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("InventoryId,InventoryName,InventoryDescription,TimeRequiredInMinutes,ParentInventoryId")] Inventory inventory)
+        public async Task<IActionResult> Edit(long id, [Bind("InventoryId,SectionName,InventoryName,InventoryDescription,TimeRequiredInMinutes,ParentInventoryId")] Inventory inventory)
         {
             if (id != inventory.InventoryId)
             {
