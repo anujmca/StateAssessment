@@ -11,6 +11,7 @@ using StateAssessment.Models;
 
 namespace StateAssessment.Controllers
 {
+    [Route("inventory")]
     public class InventoryController : Controller
     {
         private readonly InventoryDbContext _context;
@@ -22,15 +23,39 @@ namespace StateAssessment.Controllers
 
         // GET: Inventory
         [Authorize]
+        [HttpGet("")]
         public async Task<IActionResult> Index()
         {
             var inventoryDbContext = _context.Inventories.Include(i => i.ParentInventory);
             return View(await inventoryDbContext.ToListAsync());
         }
 
-        // GET: Inventory/Details/5
+        // GET: Inventory/5
         [Authorize]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Details(long? id)
+        {
+            if (id == null || _context.Inventories == null)
+            {
+                return NotFound();
+            }
+
+            var inventory = await _context.Inventories
+                .Include(i => i.ParentInventory)
+                .FirstOrDefaultAsync(m => m.InventoryId == id);
+            if (inventory == null)
+            {
+                return NotFound();
+            }
+
+            return View(inventory);
+        }
+
+
+        // GET: Inventory/5/Questions
+        [Authorize]
+        [HttpGet("{id}/questions")]
+        public async Task<IActionResult> Questions(long? id)
         {
             if (id == null || _context.Inventories == null)
             {
@@ -50,6 +75,7 @@ namespace StateAssessment.Controllers
 
         // GET: Inventory/Create
         [Authorize]
+        [HttpGet("create")]
         public IActionResult Create()
         {
             ViewData["ParentInventoryId"] = new SelectList(_context.Inventories, "InventoryId", "InventoryId");
@@ -59,7 +85,7 @@ namespace StateAssessment.Controllers
         // POST: Inventory/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("create")]
         [ValidateAntiForgeryToken]
         [Authorize]
         public async Task<IActionResult> Create([Bind("InventoryId,SectionName,InventoryName,InventoryDescription,TimeRequiredInMinutes,ParentInventoryId")] Inventory inventory)
@@ -74,8 +100,9 @@ namespace StateAssessment.Controllers
             return View(inventory);
         }
 
-        // GET: Inventory/Edit/5
+        // GET: Inventory/5/Edit
         [Authorize]
+        [HttpGet("{id}/edit")]
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null || _context.Inventories == null)
@@ -92,12 +119,12 @@ namespace StateAssessment.Controllers
             return View(inventory);
         }
 
-        // POST: Inventory/Edit/5
+        // POST: Inventory/5/Edit
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
+        [HttpPost("{id}/edit")]
         public async Task<IActionResult> Edit(long id, [Bind("InventoryId,SectionName,InventoryName,InventoryDescription,TimeRequiredInMinutes,ParentInventoryId")] Inventory inventory)
         {
             if (id != inventory.InventoryId)

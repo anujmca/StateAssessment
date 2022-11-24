@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StateAssessment.Models;
 using System.Diagnostics;
 
@@ -13,16 +14,20 @@ namespace StateAssessment.Controllers
             _logger = logger;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
-            return View();
+            //return View();
+            return Redirect("/inventory");
         }
 
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();
         }
 
+        [Authorize]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
