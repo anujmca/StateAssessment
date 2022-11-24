@@ -335,6 +335,7 @@ body.image-bg {
     border-radius: 5px;
     border: 1px solid #D8D8D8;
     padding: 30px 25px;
+    margin: 0 0 30px;
 }
 
 #intro-sec .intro-instruction h6 {
@@ -382,6 +383,14 @@ body a.cst-btn img {
 
 body a.cst-btn:hover {
     background: #0E2D52;
+}
+
+body a.cst-btn.alternate {
+    background: #0E2D52;
+}
+
+body a.cst-btn.alternate:hover {
+    background: #861F41;
 }
 
 #back-sec .container {
@@ -583,6 +592,221 @@ body a.cst-btn:hover {
     border-color: #4fd97d;
 }
 
+#quest-list .quest-list-in {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 0 15px;
+}
+
+#quest-list h6 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 400;
+    color: #505457;
+}
+
+#quest-list .filter-data {
+    display: flex;
+    align-items: center;
+}
+
+#quest-list .filter-data p {
+    margin: 0;
+    color: #44423F;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+#quest-list .filter-data select {
+    width: 60px;
+    background: url(/icons/select-arrow.svg) no-repeat center #fff;
+    background-position-x: calc(100% - 10px);
+    background-size: 11px;
+    border: 1px solid #96938E;
+    border-radius: 5px;
+    height: 34px;
+    padding: 0 10px;
+    margin: 0 10px;
+    outline: none;
+    box-shadow: none;
+    font-size: 13px;
+    font-weight: 400;
+    color: #44423F;
+}
+
+#quest-list .desc {
+    font-size: 14px;
+    color: #505457;
+    font-weight: 400;
+}
+
+#quest-table {
+    margin: 20px 0 110px;
+}
+
+#quest-table thead th {
+    padding: 0 15px;
+    background: #fff;
+    color: #717171;
+    font-weight: 400;
+    font-size: 20px;
+    border: none;
+    text-align: center;
+    line-height: 1em;
+    vertical-align: top;
+}
+
+#quest-table tbody tr {
+    box-shadow: 0 4px 8px #00000014;
+    text-align: center;
+}
+
+#quest-table tbody td {
+    border: none;
+    padding: 15px;
+    box-shadow: none;
+    background: #fff;
+}
+
+#quest-table tbody tr td:first-child {
+    text-align: left;
+    color: #717171;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+#quest-table tbody .spacer {
+    height: 15px;
+    background: transparent;
+    box-shadow: none;
+}
+
+#quest-table tbody td input {
+    margin: 0;
+    width: 22px;
+    height: 22px;
+    -webkit-appearance: none;
+    border: 1px solid #861F41;
+    outline: none;
+    box-shadow: none;
+    position: relative;
+    background: #fff;
+    transition: all 0.3s ease-in-out;
+}
+
+#quest-table tbody td input:before {
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: #fff;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 0 4px #861f41;
+    opacity: 0;
+    transition: inherit;
+}
+
+#quest-table tbody td input:checked {
+    background: #F3F4FC;
+}
+
+#quest-table tbody td input:checked:before {
+    opacity: 1;
+}
+
+#submitModal .modal-content .modal-title {
+    font-weight: 500;
+    text-transform: none;
+    font-size: 16px;
+}
+
+#submitModal .modal-content .cst-btn {
+    margin-left: auto;
+    max-width: 150px;
+}
+
+#back-sec .time-quest {
+    margin: 0;
+    margin-left: auto;
+    margin-right: 25px;
+    color: #717171;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+#back-sec .time-quest b {
+    color: #0E2D52;
+}
+
+input.write {
+    width: 100%;
+    max-width: 300px;
+    height: 56px;
+    background: #fff;
+    border: none;
+    border-radius: 5px;
+    outline: none !important;
+    box-shadow: 0 4px 10px #0000001a !important;
+    font-weight: 400;
+    font-size: 14px;
+    color: #717171;
+    padding: 10px 15px;
+}
+
+input.write::placeholder {
+    color: #C9C9C9;
+}
+
+#quest-list>.container:not(:last-child) {
+    margin-bottom: 40px;
+}
+
+input.c-radio {
+    margin: 0;
+    width: 22px;
+    height: 22px;
+    -webkit-appearance: none;
+    border: 1px solid #861F41;
+    outline: none;
+    box-shadow: none;
+    position: relative;
+    background: #fff;
+    border-radius: 50%;
+    margin-right: 15px;
+    transition: all 0.3s ease-in-out;
+}
+
+input.c-radio:before {
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: #fff;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 0 4px #861f41;
+    opacity: 0;
+    transition: inherit;
+}
+
+input.c-radio:checked {
+    background: #F3F4FC;
+}
+
+input.c-radio:checked:before {
+    opacity: 1;
+}
+
+#quest-list .d-flex:not(:last-child) {
+    margin-bottom: 15px;
+}
 
 
 
@@ -591,12 +815,30 @@ body a.cst-btn:hover {
 
 
 
+#bottom-bar {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: +9;
+    background: #fff;
+    box-shadow: 0 -3px 6px #0000001a;
+    padding: 15px 0;
+}
 
+#bottom-bar .container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
 
-
-
-
-
+#bottom-bar p {
+    font-size: 14px;
+    font-weight: 400;
+    color: #505457;
+    margin: 0;
+}
 
 
 

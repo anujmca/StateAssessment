@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,7 @@ namespace StateAssessment.Controllers
         }
 
         // GET: Inventory
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var inventoryDbContext = _context.Inventories.Include(i => i.ParentInventory);
@@ -27,6 +29,7 @@ namespace StateAssessment.Controllers
         }
 
         // GET: Inventory/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null || _context.Inventories == null)
@@ -46,6 +49,7 @@ namespace StateAssessment.Controllers
         }
 
         // GET: Inventory/Create
+        [Authorize]
         public IActionResult Create()
         {
             ViewData["ParentInventoryId"] = new SelectList(_context.Inventories, "InventoryId", "InventoryId");
@@ -57,6 +61,7 @@ namespace StateAssessment.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create([Bind("InventoryId,SectionName,InventoryName,InventoryDescription,TimeRequiredInMinutes,ParentInventoryId")] Inventory inventory)
         {
             if (ModelState.IsValid)
@@ -70,6 +75,7 @@ namespace StateAssessment.Controllers
         }
 
         // GET: Inventory/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null || _context.Inventories == null)
@@ -91,6 +97,7 @@ namespace StateAssessment.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(long id, [Bind("InventoryId,SectionName,InventoryName,InventoryDescription,TimeRequiredInMinutes,ParentInventoryId")] Inventory inventory)
         {
             if (id != inventory.InventoryId)
@@ -123,6 +130,7 @@ namespace StateAssessment.Controllers
         }
 
         // GET: Inventory/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null || _context.Inventories == null)
@@ -144,6 +152,7 @@ namespace StateAssessment.Controllers
         // POST: Inventory/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             if (_context.Inventories == null)

@@ -17,7 +17,13 @@
                     <a href="/"><img src="~/images/logo.png"></a>
                 </div>
                 <div id="top-menu">
-                    <a href="#"><img src="~/icons/three-dots.svg"></a>
+                    <a href="#"><img src="~/icons/three-dots.svg">
+                       @* <li class="nav-item">
+                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                            </form>
+                        </li>*@
+                    </a>
                 </div>
             </div>
         </div>
