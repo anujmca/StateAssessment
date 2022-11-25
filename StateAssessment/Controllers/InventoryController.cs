@@ -14,9 +14,9 @@ namespace StateAssessment.Controllers
     [Route("inventory")]
     public class InventoryController : Controller
     {
-        private readonly InventoryDbContext _context;
+        private readonly SAContext _context;
 
-        public InventoryController(InventoryDbContext context)
+        public InventoryController(SAContext context)
         {
             _context = context;
         }
@@ -26,7 +26,7 @@ namespace StateAssessment.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            var inventoryDbContext = _context.Inventories.Include(i => i.ParentInventory);
+            var inventoryDbContext = _context.Inventories.Include(i => i.ParentInventory).Include(i => i.Questions);
             return View(await inventoryDbContext.ToListAsync());
         }
 
@@ -64,6 +64,7 @@ namespace StateAssessment.Controllers
 
             var inventory = await _context.Inventories
                 .Include(i => i.ParentInventory)
+                .Include(i => i.Questions)
                 .FirstOrDefaultAsync(m => m.InventoryId == id);
             if (inventory == null)
             {

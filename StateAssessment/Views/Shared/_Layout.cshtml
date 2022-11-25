@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
-<body class="image-bg">
+<body class='@(ViewData.ContainsKey("ClearBodyClass") && (bool)ViewData["ClearBodyClass"] ? "":"image-bg")'>
     <div id="top-bar" class="mb-4">
         <div class="container">
             <div class="top-in">

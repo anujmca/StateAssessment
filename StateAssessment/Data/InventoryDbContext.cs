@@ -5,14 +5,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StateAssessment.Data
 {
-    public class InventoryDbContext:DbContext
+    public class InventoryDbContext2//:DbContext
     {
-        public InventoryDbContext(DbContextOptions options) : base(options)
+        public InventoryDbContext2(DbContextOptions options) //: base(options)
         {
 
         }
 
-        public DbSet<Inventory> Inventories { get; set; }       
+             
 
     }
 }

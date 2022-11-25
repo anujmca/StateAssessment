@@ -44,6 +44,7 @@ Create table dbo.Question
 	[Description]		nvarchar(3000),
 	QuestionTypeCode	char(1) not null, 
 	TimeRequiredInMinutes	int, 
+	DisplaySequence		int, 
 
 	constraint pk_Question primary key(QuestionId), 
 	constraint fk_Question_InventoryId foreign key (InventoryId) references dbo.Inventory(InventoryId), 

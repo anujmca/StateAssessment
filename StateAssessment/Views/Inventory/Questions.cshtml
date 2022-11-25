@@ -1,26 +1,139 @@
-﻿@model StateAssessment.Models.Inventory
+﻿@using StateAssessment.Common
+@model StateAssessment.Models.Inventory
 
 @{
     ViewData["Title"] = (Model.SectionName + ": " + Model.InventoryName);
+    ViewData["ClearBodyClass"] = true;
 }
 
 <div id="back-sec" class="mb-4">
     <div class="container">
-        <a href="/inventory"><img src="~/icons/back.svg"> Go to all sections</a>
+        <a href="~/inventory/@Model.InventoryId"><img src="~/icons/back.svg"> Go back</a>
+        <a href="javascript:void(0)" class="sub-btn" data-bs-toggle="modal" data-bs-target="#submitModal">Submit</a>
     </div>
 </div>
 
-<div id="intro-sec">
+
+<div id="intro-sec" class="sec-list">
     <div class="container">
-        <div class="intro-head"><h4><b> @Html.DisplayFor(model => model.SectionName):</b> @Html.DisplayFor(model => model.InventoryName)</h4></div>
-        <div class="intro-instruction">
-            <h6>INSTRUCTIONS</h6>
-            @Html.Raw(Model.InventoryDescription)
-            <a href="~/inventory/@Model.InventoryId/questions" class="cst-btn">Continue<img src="../../icons/right-arrow.svg"></a>
+        <div class="intro-head">
+            <h4><b>@Model.SectionName:</b> @Model.InventoryName</h4>
+            <div class="intro-right">
+                <button type="button" data-bs-toggle="modal" data-bs-target="#infoModal" class="info-btn"><img src="~/icons/info.svg">@Model.Questions.Count Question
+                    @if (@Model.Questions.Count > 1)
+                    {
+                        <span>s</span>
+                    }
+                </button>
+                <a href="javascript:void(0)" id="review" class="review">
+                    <img src="~/icons/review.svg">Review
+                    <div id="rev-drop">
+                        <div class="rev-in">
+                            <ul class="questions">
+                                @foreach(var q in Model.Questions)
+                                {
+                                    <li class="active focus">@q.DisplaySequence.ToString("00")</li>
+                                }                                
+                                @*<li class="active">02</li>*@
+                            </ul>
+                            <ul class="data">
+                                <li class="att">Attempted Questions</li>
+                                <li>Unattempted Questions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
 </div>
 
+
+<div id="quest-list">
+    <div class="container">
+        <div class="quest-list-in">
+            <h6>Questions</h6>
+            <div class="filter-data">
+                <p>Show</p>
+                <select name="show" id="show" class="form-control">
+                    <option value="05">05</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="All">All</option>
+                </select>
+                <p>Questions</p>
+            </div>
+        </div>
+        <p class="desc">Choose the answer that best describes you.  Each question requires an answer.</p>
+    </div>
+</div>
+
+
+<div class="container">
+    @if (Model.Questions.Any(q => q.QuestionTypeCode.Equals(Constants.QUESTION_TYPE__YesNoUnknown)))
+    {
+        <table id="quest-table" class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="width:120px;">Yes</th>
+                    <th style="width:120px;">No</th>
+                    <th style="width:120px;">Unable to answer</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var q in Model.Questions.Where(q => q.QuestionTypeCode.Equals(Constants.QUESTION_TYPE__YesNoUnknown)).OrderBy(q => q.DisplaySequence))
+            {   
+                <tr class="spacer"></tr>
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => q.Title)</td>
+                    <td><input type="radio" name="quest-@q.QuestionId" class="form-check-input"></td>
+                    <td><input type="radio" name="quest-@q.QuestionId" class="form-check-input"></td>
+                    <td><input type="radio" name="quest-@q.QuestionId" class="form-check-input"></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+</div>
+
+
+<div id="bottom-bar">
+    <div class="container">
+        <p>State Industrial Products</p>
+        <a href="list.html" class="cst-btn alternate">Continue<img src="~/icons/right-arrow.svg"></a>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="infoModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h5 class="modal-title" id="exampleModalLongTitle">Instructions</h5>
+            <div class="modal-body">
+                @Html.Raw(@Model.InventoryDescription)
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="submitModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h5 class="modal-title" id="exampleModalLongTitle">Confirm Submit</h5>
+            <div class="modal-body">
+                <p>Are you sure you want to submit the assessment? You will not be able to attempt this section again.</p>
+                <a href="~/inventory" class="cst-btn">OK</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

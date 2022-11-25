@@ -48,9 +48,4 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="static\css\" />
-    <Folder Include="static\js\" />
-  </ItemGroup>
-
 </Project>

@@ -21,7 +21,12 @@
                         <div class="quest-title"><b>@Html.DisplayFor(modelItem => item.SectionName):</b> @Html.DisplayFor(modelItem => item.InventoryName)</div>
                     <div class="quest-option">
                         <div class="quest-info">
-                                <div class="total-quest"><img src="icons/question.svg">@Html.DisplayFor(modelItem => item.Questions.Count) Questions</div>
+                                <div class="total-quest"><img src="icons/question.svg">@Html.DisplayFor(modelItem => item.Questions.Count) Question
+                                    @if (item.Questions.Count > 1)
+                                    {
+                                        <span>s</span>
+                                    }
+                                </div>
                                 @if (item.TimeRequiredInMinutes != null && item.TimeRequiredInMinutes > 0){
                                     <div class="total-time"><img src="icons/timer.svg">@Html.DisplayFor(modelItem => item.TimeRequiredInMinutes) Minute
                                         @if (item.TimeRequiredInMinutes > 1) {<span>s</span>}

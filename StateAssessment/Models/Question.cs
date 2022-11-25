@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StateAssessment.Models
 {
+    [Table("Question")]
     public partial class Question
     {
         public Question()
@@ -19,7 +21,7 @@ namespace StateAssessment.Models
         public string? Description { get; set; }
         public string QuestionTypeCode { get; set; } = null!;
         public int? TimeRequiredInMinutes { get; set; }
-
+        public int DisplaySequence { get; set; }
         public virtual Inventory Inventory { get; set; } = null!;
         public virtual QuestionType QuestionTypeCodeNavigation { get; set; } = null!;
         public virtual ICollection<Answer> Answers { get; set; }
