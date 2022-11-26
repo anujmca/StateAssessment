@@ -59,7 +59,7 @@ namespace StateAssessment.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("QuestionId,InventoryId,Title,Description,QuestionTypeCode,TimeRequiredInMinutes")] Question question)
         {
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
             {
                 _context.Add(question);
                 await _context.SaveChangesAsync();

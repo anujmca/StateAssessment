@@ -47,6 +47,7 @@ Create table dbo.Question
 	DisplaySequence		int, 
 
 	constraint pk_Question primary key(QuestionId), 
+	constraint uk_Question unique(InventoryId, DisplaySequence), 
 	constraint fk_Question_InventoryId foreign key (InventoryId) references dbo.Inventory(InventoryId), 
 	constraint fk_Question_QuestionTypeCode foreign key (QuestionTypeCode) references dbo.QuestionType(QuestionTypeCode)
 );
