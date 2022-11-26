@@ -28,7 +28,7 @@
                                     }
                                 </div>
                                 @if (item.TimeRequiredInMinutes != null && item.TimeRequiredInMinutes > 0){
-                                    <div class="total-time"><img src="icons/timer.svg">@Html.DisplayFor(modelItem => item.TimeRequiredInMinutes) Minute
+                                    <div class="total-time"><img src="icons/timer.svg">@item.TimeRequiredInMinutes.Value.ToString("00") Minute
                                         @if (item.TimeRequiredInMinutes > 1) {<span>s</span>}
                                     </div>
                                 }

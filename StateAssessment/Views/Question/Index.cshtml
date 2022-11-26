@@ -29,6 +29,9 @@
                 @Html.DisplayNameFor(model => model.DisplaySequence)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.QuestionCategory)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Inventory)
             </th>
             <th></th>
@@ -49,9 +52,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TimeRequiredInMinutes)
             </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DisplaySequence)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisplaySequence)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuestionCategory)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Inventory.InventoryId)
             </td>

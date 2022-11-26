@@ -4,6 +4,7 @@ drop table dbo.[User];
 drop table dbo.UserType;
 drop table dbo.Answer;
 drop table dbo.AnswerType;
+drop table dbo.QuestionSuggestedAnswer;
 drop table dbo.Question;
 drop table dbo.QuestionType;
 drop table dbo.Inventory;
@@ -41,8 +42,9 @@ Create table dbo.Question
 	QuestionId			bigint identity(1, 1), 
 	InventoryId			bigint not null, 
 	Title				nvarchar(500), 
-	[Description]		nvarchar(3000),
+	[Description]		nvarchar(4000),
 	QuestionTypeCode	char(1) not null, 
+	QuestionCategory	nvarchar(50) null, 
 	TimeRequiredInMinutes	int, 
 	DisplaySequence		int, 
 
@@ -53,6 +55,19 @@ Create table dbo.Question
 );
 go
 
+create table dbo.QuestionSuggestedAnswer
+(
+	QuestionSuggestedAnswerId		bigint identity(1, 1), 
+	QuestionId		bigint not null, 
+	Title			nvarchar(500), 
+	[Description]	nvarchar(3000),
+	Score			decimal(28, 8), 
+
+	constraint uk_QuestionSuggestedAnswer unique(QuestionId, QuestionSuggestedAnswerId), 
+	constraint pk_QuestionSuggestedAnswer primary key(QuestionSuggestedAnswerId), 
+	constraint fk_QuestionSuggestedAnswer_QuestionId foreign key (QuestionId) references dbo.Question(QuestionId)
+);
+go
 
 create table dbo.AnswerType
 (

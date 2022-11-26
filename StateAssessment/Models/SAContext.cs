@@ -17,6 +17,7 @@ namespace StateAssessment.Models
         {
         }
 
+        public virtual DbSet<QuestionSuggestedAnswer> QuestionSuggestedAnswers { get; set; } = null!;
         public virtual DbSet<Answer> Answers { get; set; } = null!;
         public virtual DbSet<AnswerType> AnswerTypes { get; set; } = null!;
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; } = null!;
@@ -45,6 +46,23 @@ namespace StateAssessment.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<QuestionSuggestedAnswer>(entity =>
+            {
+                entity.ToTable("QuestionSuggestedAnswer");
+
+                entity.Property(e => e.Description).HasMaxLength(3000);
+
+                entity.Property(e => e.Score).HasColumnType("decimal(28, 8)");
+
+                entity.Property(e => e.Title).HasMaxLength(500);
+
+                entity.HasOne(d => d.Question)
+                    .WithMany(p => p.QuestionSuggestedAnswers)
+                    .HasForeignKey(d => d.QuestionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_QuestionSuggestedAnswer_QuestionId");
+            });
+
             modelBuilder.Entity<Answer>(entity =>
             {
                 entity.ToTable("Answer");

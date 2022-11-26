@@ -22,7 +22,7 @@ namespace StateAssessment.Controllers
         // GET: Question
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Questions.Include(q => q.Inventory);
+            var applicationDbContext = _context.Questions.Include(q => q.Inventory).Include(q=>q.QuestionSuggestedAnswers);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -36,6 +36,7 @@ namespace StateAssessment.Controllers
 
             var question = await _context.Questions
                 .Include(q => q.Inventory)
+                .Include(q=>q.QuestionSuggestedAnswers)
                 .FirstOrDefaultAsync(m => m.QuestionId == id);
             if (question == null)
             {
