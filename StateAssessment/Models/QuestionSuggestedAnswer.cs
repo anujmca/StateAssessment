@@ -16,6 +16,7 @@ namespace StateAssessment.Models
         public string? Title { get; set; }
         public string? Description { get; set; }
         public decimal? Score { get; set; }
+        public int DisplaySequence { get; set; }
         public virtual Question Question { get; set; } = null!;
     }
 }

@@ -874,7 +874,9 @@ input.c-radio:checked:before {
     top: 18px;
 }
 
-
+.cursor-hand {
+    cursor:pointer;
+}
 
 
 

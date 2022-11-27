@@ -64,7 +64,8 @@ namespace StateAssessment.Controllers
 
             var inventory = await _context.Inventories
                 .Include(i => i.ParentInventory)
-                .Include(i => i.Questions)
+                .Include(q => q.Questions)
+                    .ThenInclude(q=>q.QuestionSuggestedAnswers)
                 .FirstOrDefaultAsync(m => m.InventoryId == id);
             if (inventory == null)
             {

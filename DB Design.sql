@@ -61,9 +61,11 @@ create table dbo.QuestionSuggestedAnswer
 	QuestionId		bigint not null, 
 	Title			nvarchar(500), 
 	[Description]	nvarchar(3000),
-	Score			decimal(28, 8), 
+	Score			decimal(28, 8),
+	DisplaySequence		int, 
 
 	constraint uk_QuestionSuggestedAnswer unique(QuestionId, QuestionSuggestedAnswerId), 
+	constraint uk_QuestionSuggestedAnswer_Display unique(QuestionId, DisplaySequence), 
 	constraint pk_QuestionSuggestedAnswer primary key(QuestionSuggestedAnswerId), 
 	constraint fk_QuestionSuggestedAnswer_QuestionId foreign key (QuestionId) references dbo.Question(QuestionId)
 );

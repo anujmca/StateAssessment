@@ -52,7 +52,10 @@
 <div id="quest-list">
     <div class="container">
         <div class="quest-list-in">
-            <h6>Questions</h6>
+            @*@if (Model.Questions.Any(q => q.QuestionTypeCode.Equals(Constants.QUESTION_TYPE__YesNoUnknown)))
+            {*@
+                <h6>Questions</h6>
+            @*}*@
             <div class="filter-data">
                 <p>Show</p>
                 <select name="show" id="show" class="form-control">
@@ -65,14 +68,17 @@
                 <p>Questions</p>
             </div>
         </div>
-        <p class="desc">Choose the answer that best describes you.  Each question requires an answer.</p>
+        @if (Model.Questions.Any(q => q.QuestionTypeCode.Equals(Constants.QUESTION_TYPE__YesNoUnknown)))
+        {
+            <p class="desc">Choose the answer that best describes you.  Each question requires an answer.</p>
+        }
     </div>
 </div>
 
 
-<div class="container">
-    @if (Model.Questions.Any(q => q.QuestionTypeCode.Equals(Constants.QUESTION_TYPE__YesNoUnknown)))
-    {
+@if (Model.Questions.Any(q => q.QuestionTypeCode.Equals(Constants.QUESTION_TYPE__YesNoUnknown)))
+{
+    <div class="container">
         <table id="quest-table" class="table">
             <thead>
                 <tr>
@@ -95,8 +101,38 @@
             }
             </tbody>
         </table>
+    </div>
+}
+<div id="quest-list">
+    @foreach (var q in Model.Questions.Where(q => !q.QuestionTypeCode.Equals(Constants.QUESTION_TYPE__YesNoUnknown)).OrderBy(q => q.DisplaySequence))
+    {
+        <div class="container mb-5">
+            <div class="quest-list-in">
+                <h6>Question @q.DisplaySequence</h6>
+            </div>
+            <p class="desc">@Html.DisplayFor(modelItem => q.Title)</p>
+            @if (q.QuestionTypeCode.Equals(Constants.QUESTION_TYPE__Numeric))
+            {
+                <input name="quest-@q.QuestionId" type="number" class="form-control write" placeholder="Type answer here">
+            }
+            else if (q.QuestionTypeCode.Equals(Constants.QUESTION_TYPE__Text))
+            {
+                <input name="quest-@q.QuestionId" type="text" class="form-control write" placeholder="Type answer here">
+            }
+            else if (q.QuestionTypeCode.Equals(Constants.QUESTION_TYPE__SingleChoice))
+            {
+                @foreach (var qs in q.QuestionSuggestedAnswers)
+                {
+                    <div class="d-flex align-items-center">
+                        <input type="radio" name="quest-@q.QuestionId" id="selected-answer-@qs.QuestionSuggestedAnswerId" class="c-radio cursor-hand" value="@qs.QuestionSuggestedAnswerId">
+                        <label for="selected-answer-@qs.QuestionSuggestedAnswerId" class="desc cursor-hand">@qs.Title</label>
+                    </div>
+                }
+            }
+        </div>
     }
 </div>
+
 
 
 <div id="bottom-bar">
