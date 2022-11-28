@@ -130,7 +130,7 @@ namespace StateAssessment.Controllers
         public record AddAssessmentAnswerRequest(int AssessmentId, int QuestionId, string Answer);
 
         [HttpPost("CaptureAnswer")]
-        public IActionResult Add([FromBody] AddAssessmentAnswerRequest req)
+        public async Task<IActionResult> CaptureAnswer([FromBody] AddAssessmentAnswerRequest req)
         {
             try
             {
@@ -153,6 +153,8 @@ namespace StateAssessment.Controllers
                     switch (question.QuestionTypeCode)
                     {
                         case Common.Constants.QUESTION_TYPE__YesNoUnknown:
+                        case Common.Constants.QUESTION_TYPE__Numeric:
+                        case Common.Constants.QUESTION_TYPE__Text:
                             ans.AnswerValue = req.Answer;
                             break;
                         case Common.Constants.QUESTION_TYPE__SingleChoice: 
@@ -166,7 +168,7 @@ namespace StateAssessment.Controllers
                         _context.Add(ans);
                     else
                         _context.Update(ans);
-                    var assessmentAnswerId = _context.SaveChangesAsync();
+                    var assessmentAnswerId = await _context.SaveChangesAsync();
                     return Json(assessmentAnswerId);
                 }
                 else
