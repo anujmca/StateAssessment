@@ -121,18 +121,18 @@ go
 create table dbo.Assessment
 (
 	AssessmentId bigint identity(1, 1), 
-	UserId			bigint not null,
-	QuestionId		bigint not null,
+	AssesseeUserId		nvarchar(450) not null,
+	InventoryId		bigint not null,
 	StartedOn		datetime2 not null, 
 	CompletedOn		datetime2 null, 
 	IsPaused		bit not null default(0), 
 	LastPausedAt	datetime2 null, 
 	PauseCount		int null, 
-	EarnedScore		decimal(28, 8), 
+	EarnedScore		decimal(28, 8) null, 
 
 	constraint pk_Assessment primary key(AssessmentId), 
-	constraint fk_Assessment_QuestionId foreign key (QuestionId) references dbo.Question(QuestionId), 
-	constraint fk_Assessment_UserId foreign key (UserId) references dbo.[User](UserId)
+	constraint fk_Assessment_InventoryId foreign key (InventoryId) references dbo.Inventory(InventoryId), 
+	constraint fk_Assessment_AssesseeUserId foreign key (AssesseeUserId) references dbo.AspNetUsers(Id)
 );
 
 
@@ -140,10 +140,13 @@ create table dbo.AssessmentAnswer
 (
 	AssessmentAnswerId		bigint identity(1, 1), 
 	AssessmentId			bigint not null,
-	AnswerId				bigint null,
+	QuestionId				bigint not null, 
+	SuggestedAnswerId		bigint null,
+	AnswerValue				nvarchar(4000), 
 	SubmittedOn				datetime2 not null, 
 	
 	constraint pk_AssessmentAnswerId primary key(AssessmentAnswerId), 
 	constraint fk_AssessmentAnswer_AssessmentId foreign key (AssessmentId) references dbo.Assessment(AssessmentId), 
-	constraint fk_Assessment_AnswerId foreign key (AnswerId) references dbo.Answer(AnswerId)
+	constraint fk_AssessmentAnswer_QuestionId foreign key (QuestionId) references dbo.Question(QuestionId), 
+	constraint fk_Assessment_AnswerId foreign key (SuggestedAnswerId) references dbo.QuestionSuggestedAnswer(QuestionSuggestedAnswerId)
 )

@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\User.cs" />
+    <Compile Remove="Models\UserType.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\css\style.css" />
     <None Include="wwwroot\css\style.min.css" />
     <None Include="wwwroot\fonts\Rubik-Black.ttf" />

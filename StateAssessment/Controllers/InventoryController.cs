@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,10 +16,12 @@ namespace StateAssessment.Controllers
     public class InventoryController : Controller
     {
         private readonly SAContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public InventoryController(SAContext context)
+        public InventoryController(SAContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            this._userManager = userManager;
         }
 
         // GET: Inventory
@@ -71,6 +74,20 @@ namespace StateAssessment.Controllers
             {
                 return NotFound();
             }
+
+            var user = _userManager.Users.First();
+            var isExists = _context.Assessments.Any(a => a.User.Id.Equals(user.Id) && a.InventoryId.Equals(inventory.InventoryId));
+            if (isExists == false)
+            {
+                var assessment = new Assessment();
+                assessment.StartedOn = DateTime.Now.ToUniversalTime();
+                assessment.AssesseeUserId = user.Id;   
+                assessment.InventoryId = inventory.InventoryId;
+
+                _context.Add(assessment);
+                var assessmentId = await _context.SaveChangesAsync();
+            }
+            
 
             return View(inventory);
         }

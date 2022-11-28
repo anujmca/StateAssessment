@@ -31,8 +31,8 @@ namespace StateAssessment.Models
         public virtual DbSet<Inventory> Inventories { get; set; } = null!;
         public virtual DbSet<Question> Questions { get; set; } = null!;
         public virtual DbSet<QuestionType> QuestionTypes { get; set; } = null!;
-        public virtual DbSet<User> Users { get; set; } = null!;
-        public virtual DbSet<UserType> UserTypes { get; set; } = null!;
+        //public virtual DbSet<User> Users { get; set; } = null!;
+        //public virtual DbSet<UserType> UserTypes { get; set; } = null!;
 
 //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //        {
@@ -201,27 +201,32 @@ namespace StateAssessment.Models
 
                 entity.Property(e => e.EarnedScore).HasColumnType("decimal(28, 8)");
 
-                entity.HasOne(d => d.Question)
+                entity.HasOne(d => d.Inventory)
                     .WithMany(p => p.Assessments)
-                    .HasForeignKey(d => d.QuestionId)
+                    .HasForeignKey(d => d.InventoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_Assessment_QuestionId");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Assessments)
-                    .HasForeignKey(d => d.UserId)
+                    .HasForeignKey(d => d.AssesseeUserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_Assessment_UserId");
+                    .HasConstraintName("fk_Assessment_AssesseeUserId");
             });
 
             modelBuilder.Entity<AssessmentAnswer>(entity =>
             {
                 entity.ToTable("AssessmentAnswer");
 
+                entity.HasOne(d => d.Question)
+                   .WithMany(p => p.AssessmentAnswers)
+                   .HasForeignKey(d => d.QuestionId)
+                   .HasConstraintName("fk_AssessmentAnswer_QuestionId");
+
                 entity.HasOne(d => d.Answer)
                     .WithMany(p => p.AssessmentAnswers)
-                    .HasForeignKey(d => d.AnswerId)
-                    .HasConstraintName("fk_Assessment_AnswerId");
+                    .HasForeignKey(d => d.SuggestedAnswerId)
+                    .HasConstraintName("fk_Assessment_SuggestedAnswerId");
 
                 entity.HasOne(d => d.Assessment)
                     .WithMany(p => p.AssessmentAnswers)
@@ -287,44 +292,44 @@ namespace StateAssessment.Models
                 entity.Property(e => e.QuestionTypeName).HasMaxLength(100);
             });
 
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.ToTable("User");
+            //modelBuilder.Entity<User>(entity =>
+            //{
+            //    entity.ToTable("User");
 
-                entity.Property(e => e.UserEmail)
-                    .HasMaxLength(200)
-                    .IsUnicode(false);
+            //    entity.Property(e => e.UserEmail)
+            //        .HasMaxLength(200)
+            //        .IsUnicode(false);
 
-                entity.Property(e => e.UserName)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+            //    entity.Property(e => e.UserName)
+            //        .HasMaxLength(100)
+            //        .IsUnicode(false);
 
-                entity.Property(e => e.UserTypeCode)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .IsFixedLength();
+            //    entity.Property(e => e.UserTypeCode)
+            //        .HasMaxLength(1)
+            //        .IsUnicode(false)
+            //        .IsFixedLength();
 
-                entity.HasOne(d => d.UserTypeCodeNavigation)
-                    .WithMany(p => p.Users)
-                    .HasForeignKey(d => d.UserTypeCode)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_User_UserTypeCode");
-            });
+            //    entity.HasOne(d => d.UserTypeCodeNavigation)
+            //        .WithMany(p => p.Users)
+            //        .HasForeignKey(d => d.UserTypeCode)
+            //        .OnDelete(DeleteBehavior.ClientSetNull)
+            //        .HasConstraintName("fk_User_UserTypeCode");
+            //});
 
-            modelBuilder.Entity<UserType>(entity =>
-            {
-                entity.HasKey(e => e.UserTypeCode)
-                    .HasName("pk_UserTypeCode");
+            //modelBuilder.Entity<UserType>(entity =>
+            //{
+            //    entity.HasKey(e => e.UserTypeCode)
+            //        .HasName("pk_UserTypeCode");
 
-                entity.ToTable("UserType");
+            //    entity.ToTable("UserType");
 
-                entity.Property(e => e.UserTypeCode)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .IsFixedLength();
+            //    entity.Property(e => e.UserTypeCode)
+            //        .HasMaxLength(1)
+            //        .IsUnicode(false)
+            //        .IsFixedLength();
 
-                entity.Property(e => e.UserTypeName).HasMaxLength(100);
-            });
+            //    entity.Property(e => e.UserTypeName).HasMaxLength(100);
+            //});
 
             OnModelCreatingPartial(modelBuilder);
         }

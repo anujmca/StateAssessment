@@ -8,6 +8,7 @@ namespace StateAssessment.Models
     {
         public QuestionSuggestedAnswer()
         {
+            AssessmentAnswers = new HashSet<AssessmentAnswer>();
         }
 
         [Key]
@@ -18,5 +19,7 @@ namespace StateAssessment.Models
         public decimal? Score { get; set; }
         public int DisplaySequence { get; set; }
         public virtual Question Question { get; set; } = null!;
+
+        public virtual ICollection<AssessmentAnswer> AssessmentAnswers { get; set; }
     }
 }

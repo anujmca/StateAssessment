@@ -8,7 +8,7 @@ namespace StateAssessment.Models
     {
         public Answer()
         {
-            AssessmentAnswers = new HashSet<AssessmentAnswer>();
+            
         }
 
         [Key]
@@ -21,6 +21,6 @@ namespace StateAssessment.Models
 
         public virtual AnswerType AnswerTypeCodeNavigation { get; set; } = null!;
         public virtual Question Question { get; set; } = null!;
-        public virtual ICollection<AssessmentAnswer> AssessmentAnswers { get; set; }
+        
     }
 }

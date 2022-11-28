@@ -12,7 +12,7 @@ namespace StateAssessment.Models
         {
             QuestionSuggestedAnswers = new HashSet<QuestionSuggestedAnswer>();
             Answers = new HashSet<Answer>();
-            Assessments = new HashSet<Assessment>();
+            AssessmentAnswers = new HashSet<AssessmentAnswer>();
         }
 
         [Key]
@@ -28,6 +28,6 @@ namespace StateAssessment.Models
         public virtual QuestionType QuestionTypeCodeNavigation { get; set; } = null!;
         public virtual ICollection<QuestionSuggestedAnswer> QuestionSuggestedAnswers { get; set; }
         public virtual ICollection<Answer> Answers { get; set; }
-        public virtual ICollection<Assessment> Assessments { get; set; }
+        public virtual ICollection<AssessmentAnswer> AssessmentAnswers { get; set; }
     }
 }

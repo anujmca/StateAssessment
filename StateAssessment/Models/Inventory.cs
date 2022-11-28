@@ -12,6 +12,7 @@ namespace StateAssessment.Models
         {
             InverseParentInventory = new HashSet<Inventory>();
             Questions = new HashSet<Question>();
+            Assessments = new HashSet<Assessment>();
         }
 
         [Key]
@@ -25,5 +26,6 @@ namespace StateAssessment.Models
         public virtual Inventory? ParentInventory { get; set; }
         public virtual ICollection<Inventory> InverseParentInventory { get; set; }
         public virtual ICollection<Question> Questions { get; set; }
+        public virtual ICollection<Assessment> Assessments { get; set; }
     }
 }
