@@ -160,7 +160,8 @@ namespace StateAssessment.Controllers
                             break;
                         case Common.Constants.QUESTION_TYPE__SingleChoice: 
                         case Common.Constants.QUESTION_TYPE__MultipleChoice:
-                            var suggestedAnswer = _context.QuestionSuggestedAnswers.FirstOrDefault(s => s.QuestionSuggestedAnswerId.Equals(req.Answer));
+                            var selectedSuggestedAnswerId = long.Parse(req.Answer);
+                            var suggestedAnswer = _context.QuestionSuggestedAnswers.FirstOrDefault(s => s.QuestionSuggestedAnswerId.Equals(selectedSuggestedAnswerId));
                             if (suggestedAnswer != null)
                                 ans.SuggestedAnswerId = suggestedAnswer.QuestionSuggestedAnswerId;
                             break;
