@@ -12,6 +12,7 @@ namespace StateAssessment.Models
             AspNetUserTokens = new HashSet<AspNetUserToken>();
             Roles = new HashSet<AspNetRole>();
             Assessments = new HashSet<Assessment>();
+            AssessmentAnswers = new HashSet<AssessmentAnswer>();
         }
 
         public string Id { get; set; } = null!;
@@ -36,5 +37,7 @@ namespace StateAssessment.Models
 
         public virtual ICollection<AspNetRole> Roles { get; set; }
         public virtual ICollection<Assessment> Assessments { get; set; }
+
+        public virtual ICollection<AssessmentAnswer> AssessmentAnswers { get; set; } = null!;
     }
 }

@@ -226,13 +226,19 @@ namespace StateAssessment.Models
                 entity.HasOne(d => d.Answer)
                     .WithMany(p => p.AssessmentAnswers)
                     .HasForeignKey(d => d.SuggestedAnswerId)
-                    .HasConstraintName("fk_Assessment_SuggestedAnswerId");
+                    .HasConstraintName("fk_AssessmentAnswer_SuggestedAnswerId");
 
                 entity.HasOne(d => d.Assessment)
                     .WithMany(p => p.AssessmentAnswers)
                     .HasForeignKey(d => d.AssessmentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_AssessmentAnswer_AssessmentId");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.AssessmentAnswers)
+                    .HasForeignKey(d => d.AssesseeUserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_AssessmentAnswer_AssesseeUserId");
             });
 
             modelBuilder.Entity<Inventory>(entity =>

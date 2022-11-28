@@ -95,9 +95,9 @@
                 <tr class="spacer"></tr>
                 <tr>
                     <td>@Html.DisplayFor(modelItem => q.Title)</td>
-                    <td><input type="radio" name="quest-@q.QuestionId" class="form-check-input" value="Yes"></td>
-                    <td><input type="radio" name="quest-@q.QuestionId" class="form-check-input" value="No"></td>
-                    <td><input type="radio" name="quest-@q.QuestionId" class="form-check-input" value="Unable"></td>
+                    <td><input type="radio" name="quest-@q.QuestionId" class="form-check-input cursor-hand" value="Yes" onchange="javascript:OnRadioButtonChange(this);" @(q.AssessmentAnswers.Any(a => a.AnswerValue.Equals("Yes")) ? "Checked" : "")></td>
+                    <td><input type="radio" name="quest-@q.QuestionId" class="form-check-input cursor-hand" value="No" onchange="javascript:OnRadioButtonChange(this);" @(q.AssessmentAnswers.Any(a => a.AnswerValue.Equals("No")) ? "Checked" : "")></td>
+                    <td><input type="radio" name="quest-@q.QuestionId" class="form-check-input cursor-hand" value="Unable" onchange="javascript:OnRadioButtonChange(this);" @(q.AssessmentAnswers.Any(a => a.AnswerValue.Equals("Unable")) ? "Checked" : "")></td>
                 </tr>
             }
             </tbody>
@@ -188,8 +188,37 @@
 
 @section Scripts {
    <script type="text/javascript">
-       function OnRadioButtonChange(){
-           var assessmetnId = @Model.Assessment.AssessmentId;
+       function OnRadioButtonChange(radioButton){
+            var assessmetnId = @Model.Assessment.AssessmentId;
+            var radioButtonName = radioButton.name;
+            var questionId = parseInt(radioButtonName.replace('quest-', ''));
+            var answer = $('input[name="' + radioButtonName + '"]:checked').val();
+            console.log(radioButton);
+
+            var assessmentAnswer = new Object();
+            assessmentAnswer.AssessmentId = assessmetnId;
+            assessmentAnswer.QuestionId = questionId;
+            assessmentAnswer.Answer = answer;
+
+            var url = '/Inventory/CaptureAnswer';
+            const data = {AssessmentId:assessmetnId, 
+                        QuestionId:questionId, 
+                        Answer:answer
+                    };
+
+            var data2 = JSON.stringify(data);
+
+
+            $.ajax({
+                type: 'POST',
+                url:url, 
+                data:data2,
+                contentType: 'application/json', 
+                success:function(data){
+                    console.log(data);
+                }, 
+                //dataType:'json'
+            });
        }
    </script>
 }

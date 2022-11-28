@@ -139,6 +139,7 @@ create table dbo.Assessment
 create table dbo.AssessmentAnswer
 (
 	AssessmentAnswerId		bigint identity(1, 1), 
+	AssesseeUserId			nvarchar(450) NOT NULL,
 	AssessmentId			bigint not null,
 	QuestionId				bigint not null, 
 	SuggestedAnswerId		bigint null,
@@ -148,5 +149,6 @@ create table dbo.AssessmentAnswer
 	constraint pk_AssessmentAnswerId primary key(AssessmentAnswerId), 
 	constraint fk_AssessmentAnswer_AssessmentId foreign key (AssessmentId) references dbo.Assessment(AssessmentId), 
 	constraint fk_AssessmentAnswer_QuestionId foreign key (QuestionId) references dbo.Question(QuestionId), 
-	constraint fk_Assessment_AnswerId foreign key (SuggestedAnswerId) references dbo.QuestionSuggestedAnswer(QuestionSuggestedAnswerId)
+	constraint fk_AssessmentAnswer_SuggestedAnswerId foreign key (SuggestedAnswerId) references dbo.QuestionSuggestedAnswer(QuestionSuggestedAnswerId), 
+	constraint fk_AssessmentAnswer_AssesseeUserId foreign key (AssesseeUserId) references dbo.AspNetUsers(Id)
 )

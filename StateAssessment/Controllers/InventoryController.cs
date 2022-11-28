@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StateAssessment.Data;
 using StateAssessment.Models;
+using StateAssessment.Models.ViewModels;
 
 namespace StateAssessment.Controllers
 {
@@ -64,19 +65,25 @@ namespace StateAssessment.Controllers
             {
                 return NotFound();
             }
+            var user = _userManager.Users.First();
 
             var inventory = await _context.Inventories
                 .Include(i => i.ParentInventory)
                 .Include(q => q.Questions)
                     .ThenInclude(q=>q.QuestionSuggestedAnswers)
+                .Include(q=>q.Questions)
+                    .ThenInclude(q=>q.AssessmentAnswers.Where(a=>a.AssesseeUserId.Equals(user.Id)))
                 .FirstOrDefaultAsync(m => m.InventoryId == id);
             if (inventory == null)
             {
                 return NotFound();
             }
+                        
+            //var assessment = _context.Assessments.FirstOrDefault(a => a.User.Id.Equals(user.Id) && a.InventoryId.Equals(inventory.InventoryId));
+            var assessment = await _context.Assessments
+                            .Include(q => q.AssessmentAnswers)
+                            .FirstOrDefaultAsync(a => a.User.Id.Equals(user.Id) && a.InventoryId.Equals(inventory.InventoryId));
 
-            var user = _userManager.Users.First();
-            var assessment = _context.Assessments.FirstOrDefault(a => a.User.Id.Equals(user.Id) && a.InventoryId.Equals(inventory.InventoryId));
             if (assessment == null)
             {
                 assessment = new Assessment();
@@ -118,6 +125,57 @@ namespace StateAssessment.Controllers
             }
             ViewData["ParentInventoryId"] = new SelectList(_context.Inventories, "InventoryId", "InventoryId", inventory.ParentInventoryId);
             return View(inventory);
+        }
+
+        public record AddAssessmentAnswerRequest(int AssessmentId, int QuestionId, string Answer);
+
+        [HttpPost("CaptureAnswer")]
+        public IActionResult Add([FromBody] AddAssessmentAnswerRequest req)
+        {
+            try
+            {
+                var user = _userManager.Users.First();
+
+                var question = _context.Questions.FirstOrDefault(q => q.QuestionId.Equals(req.QuestionId));
+                if (question != null)
+                {
+                    var ans = _context.AssessmentAnswers.FirstOrDefault(a => a.AssessmentId.Equals(req.AssessmentId) && a.QuestionId.Equals(req.QuestionId) && a.AssesseeUserId.Equals(user.Id));
+                    var isNew = false;
+                    if (ans == null)
+                    {
+                        ans = new AssessmentAnswer();
+                        ans.AssessmentId = req.AssessmentId;
+                        ans.QuestionId = req.QuestionId;
+                        ans.AssesseeUserId = user.Id;
+                        isNew = true;
+                    }
+                    ans.SubmittedOn = DateTime.Now.ToUniversalTime();
+                    switch (question.QuestionTypeCode)
+                    {
+                        case Common.Constants.QUESTION_TYPE__YesNoUnknown:
+                            ans.AnswerValue = req.Answer;
+                            break;
+                        case Common.Constants.QUESTION_TYPE__SingleChoice: 
+                        case Common.Constants.QUESTION_TYPE__MultipleChoice:
+                            var suggestedAnswer = _context.QuestionSuggestedAnswers.FirstOrDefault(s => s.QuestionSuggestedAnswerId.Equals(req.Answer));
+                            if (suggestedAnswer != null)
+                                ans.SuggestedAnswerId = suggestedAnswer.QuestionSuggestedAnswerId;
+                            break;
+                    }
+                    if (isNew)
+                        _context.Add(ans);
+                    else
+                        _context.Update(ans);
+                    var assessmentAnswerId = _context.SaveChangesAsync();
+                    return Json(assessmentAnswerId);
+                }
+                else
+                    return Json("Invalid Question Id");
+            }
+            catch (Exception ex) {
+                string abc = ex.ToString();
+            }
+            return Json("aa");
         }
 
         // GET: Inventory/5/Edit
