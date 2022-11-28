@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using StateAssessment.Data;
 using StateAssessment.Models;
 using StateAssessment.Models.ViewModels;
@@ -130,7 +131,7 @@ namespace StateAssessment.Controllers
         public record AddAssessmentAnswerRequest(int AssessmentId, int QuestionId, string Answer);
 
         [HttpPost("CaptureAnswer")]
-        public async Task<IActionResult> CaptureAnswer([FromBody] AddAssessmentAnswerRequest req)
+        public async Task<JsonResult> CaptureAnswer([FromBody] AddAssessmentAnswerRequest req)
         {
             try
             {
@@ -169,7 +170,13 @@ namespace StateAssessment.Controllers
                     else
                         _context.Update(ans);
                     var assessmentAnswerId = await _context.SaveChangesAsync();
-                    return Json(assessmentAnswerId);
+                    //ans.AssessmentId = assessmentAnswerId;
+
+                    return Json(new
+                    {
+                        assessmentAnswerId = assessmentAnswerId,
+                        questionId = req.QuestionId
+                    });
                 }
                 else
                     return Json("Invalid Question Id");

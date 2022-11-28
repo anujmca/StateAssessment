@@ -33,7 +33,7 @@
                             <ul class="questions">
                                 @foreach (var q in Model.Inventory.Questions)
                                 {
-                                    <li class="@(q.AssessmentAnswers.Any()?"active":"") focus">@q.DisplaySequence.ToString("00")</li>
+                                    <li id="li-@q.QuestionId" class="@(q.AssessmentAnswers.Any()?"active":"") focus">@q.DisplaySequence.ToString("00")</li>
                                 }                                
                                 @*<li class="active">02</li>*@
                             </ul>
@@ -193,7 +193,6 @@
             var radioButtonName = radioButton.name;
             var questionId = parseInt(radioButtonName.replace('quest-', ''));
             var answer = $('input[name="' + radioButtonName + '"]:checked').val();
-            console.log(radioButton);
 
             var assessmentAnswer = new Object();
             assessmentAnswer.AssessmentId = assessmetnId;
@@ -215,7 +214,8 @@
                 data:data2,
                 contentType: 'application/json', 
                 success:function(data){
-                    console.log(data);
+                    var questionId = data.questionId;
+                    $('#li-' + questionId).addClass('active');                    
                 }, 
                 //dataType:'json'
             });
