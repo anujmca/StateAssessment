@@ -76,10 +76,10 @@ namespace StateAssessment.Controllers
             }
 
             var user = _userManager.Users.First();
-            var isExists = _context.Assessments.Any(a => a.User.Id.Equals(user.Id) && a.InventoryId.Equals(inventory.InventoryId));
-            if (isExists == false)
+            var assessment = _context.Assessments.FirstOrDefault(a => a.User.Id.Equals(user.Id) && a.InventoryId.Equals(inventory.InventoryId));
+            if (assessment == null)
             {
-                var assessment = new Assessment();
+                assessment = new Assessment();
                 assessment.StartedOn = DateTime.Now.ToUniversalTime();
                 assessment.AssesseeUserId = user.Id;   
                 assessment.InventoryId = inventory.InventoryId;
@@ -87,9 +87,10 @@ namespace StateAssessment.Controllers
                 _context.Add(assessment);
                 var assessmentId = await _context.SaveChangesAsync();
             }
-            
 
-            return View(inventory);
+           var inventoryAssessment = new Models.ViewModels.InventoryAssessment(inventory, assessment);
+
+            return View(inventoryAssessment);
         }
 
         // GET: Inventory/Create
