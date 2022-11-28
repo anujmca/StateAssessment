@@ -94,9 +94,9 @@
                 <tr class="spacer"></tr>
                 <tr>
                     <td>@Html.DisplayFor(modelItem => q.Title)</td>
-                    <td><input type="radio" name="quest-@q.QuestionId" class="form-check-input"></td>
-                    <td><input type="radio" name="quest-@q.QuestionId" class="form-check-input"></td>
-                    <td><input type="radio" name="quest-@q.QuestionId" class="form-check-input"></td>
+                    <td><input type="radio" name="quest-@q.QuestionId" class="form-check-input" value="Yes"></td>
+                    <td><input type="radio" name="quest-@q.QuestionId" class="form-check-input" value="No"></td>
+                    <td><input type="radio" name="quest-@q.QuestionId" class="form-check-input" value="Unable"></td>
                 </tr>
             }
             </tbody>
