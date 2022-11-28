@@ -33,7 +33,7 @@
                             <ul class="questions">
                                 @foreach (var q in Model.Inventory.Questions)
                                 {
-                                    <li class="active focus">@q.DisplaySequence.ToString("00")</li>
+                                    <li class="@(q.AssessmentAnswers.Any()?"active":"") focus">@q.DisplaySequence.ToString("00")</li>
                                 }                                
                                 @*<li class="active">02</li>*@
                             </ul>
